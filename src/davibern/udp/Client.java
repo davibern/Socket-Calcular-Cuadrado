@@ -3,35 +3,41 @@ package davibern.udp;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.net.SocketException;
 
-public class Receipt {
+public class Client {
     
-    private static final int PORT = 5555;
-    
-    public static void main (String[] args) {
-     
+    public static void main (String args[]) {
         try {
-            DatagramSocket socket = new DatagramSocket(PORT);
+            // Valor de la que se calculara su raiz cuadrada
+            int square = 16;
+            // Se obtiene su valor en bytes
+            byte[] buffer = String.valueOf(square).getBytes();
             
-            byte[] message = new byte[1000];
+            // Se crea el socket del cliente
+            DatagramSocket ds = new DatagramSocket();
+            // Se obtiene el host local
+            InetAddress ia = InetAddress.getLocalHost();
+            // Se crea un paquete del datagrama que requiere: el mensaje, su longitud, el host, y el puerto
+            DatagramPacket dp = new DatagramPacket(buffer, buffer.length, ia, 9999);
+            // Se envia el datagrama
+            ds.send(dp);
             
-            DatagramPacket packet = new DatagramPacket(message, message.length);
-            
-            System.out.println("Esperando mensajes...");
-            
-            while (true) {
-                socket.receive(packet);
-                String data = new String (packet.getData(), 0, packet.getLength());
-                System.out.println("Mensaje recibido: " + data);
-            }
-            
+            // Se crea un nuevo array para guardar el cuadrado del numero enviado
+            byte[] resultSquare = new byte[1024];
+            DatagramPacket dp1 = new DatagramPacket(resultSquare, resultSquare.length);
+            // Se recibe el paquete
+            ds.receive(dp1);
+            // Se guarda como String
+            String str = new String(dp1.getData(), 0, dp1.getLength());
+            // Se muestra por pantalla
+            System.out.println("La raiz cuadrada de " + square + " es " + str);
         } catch (SocketException e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
-        
-    }
+    } 
     
 }
