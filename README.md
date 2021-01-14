@@ -1,6 +1,7 @@
-# Servidor Secuencial en Java usando Sockets con TCP y UDP
+# Servidor Secuencial en Java usando Sockets con TCP y UDP e hilos de ejecución
 
-Este programa es un servidor secuencial básico usando Sockets en Java mediante TCP y UDP
+Este programa es un servidor secuencial básico usando Sockets en Java mediante TCP y UDP.
+Se ejecutarán secuencialmente si bien se emplean hilos de ejecución con la interfaz Runnable()
 
 ## ¿Cómo funciona?
 
